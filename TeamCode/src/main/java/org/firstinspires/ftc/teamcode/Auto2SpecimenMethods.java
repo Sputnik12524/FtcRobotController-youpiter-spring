@@ -26,9 +26,8 @@ public class Auto2SpecimenMethods extends LinearOpMode {
     private RevTouchSensor limitSwitch;
 
     static final double PULSES = 537.7;
-    static final double PI = 3.1415926535;
     static final double WHEELS_DIAMETER = 9.6;
-    public final double PULSES_PER_CM = PULSES / (PI * WHEELS_DIAMETER);
+    public final double PULSES_PER_CM = PULSES / (Math.PI * WHEELS_DIAMETER);
 
     public void runOpMode() {
 
