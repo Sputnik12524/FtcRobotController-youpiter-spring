@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.regulators;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class ProportionalRegulator extends LinearOpMode {
+@Config
+@TeleOp(name = "Proportional Controller", group = "Robot")
+public class ProportionalController extends LinearOpMode {
 
     DcMotor motor;
 
