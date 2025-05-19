@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACK;
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACKRIGHT;
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.CLOCKWISE;
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.FORWARD;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BASKET;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BOARD;
@@ -12,11 +11,6 @@ import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.TOP;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.modules.DriveTrain;
-import org.firstinspires.ftc.teamcode.modules.Guides2;
-import org.firstinspires.ftc.teamcode.modules.ServoWithPosition;
-import org.firstinspires.ftc.teamcode.modules.Gyroscope;
 
 @Autonomous(name = "AutoSpesimen2New", group = "Robot")
 public class Auto2SpesimenNew extends LinearOpMode {

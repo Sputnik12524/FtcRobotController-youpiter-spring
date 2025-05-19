@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -8,10 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACK;
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACKRIGHT;
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.CLOCKWISE;
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.FORWARD;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BASKET;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BOARD;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.FASTEN;
@@ -19,9 +15,6 @@ import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.TOP;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.modules.DriveTrain;
-import org.firstinspires.ftc.teamcode.modules.Guides2;
-import org.firstinspires.ftc.teamcode.modules.ServoWithPosition;
 
 @Autonomous(name = "Auto1SampleToBox3SampleNetZone", group = "Robot")
 public class Auto1SampleToBacket3SampleToNetZone extends LinearOpMode {

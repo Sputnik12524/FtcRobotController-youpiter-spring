@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACK;
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACKRIGHT;
@@ -13,10 +13,6 @@ import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.TOP;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.modules.DriveTrain;
-import org.firstinspires.ftc.teamcode.modules.Guides2;
-import org.firstinspires.ftc.teamcode.modules.ServoWithPosition;
 
 @Autonomous(name = "Backet", group = "Robot")
 public class Backet extends LinearOpMode {
