@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes.tele;
 
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -252,8 +252,6 @@ public class FinalTeleop extends LinearOpMode {
                 if (extension.getCurrentPosition() <= EXTENSION_MAX) {
                     extension.setPower(-gamepad2.right_stick_y);
                 }
-
-
             } else {
                 extension.setPower(-0.1);
                 if ((suspension.getCurrentPosition() >= 0) && (suspension.getCurrentPosition() <= SUSPENSION_MAX)) {

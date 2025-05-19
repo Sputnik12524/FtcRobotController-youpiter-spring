@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -46,7 +46,7 @@ public class Auto2Specimen extends LinearOpMode {
 
     //Перевод тиков в метрическую систему
     static final double ENCODER_PULSES = 537.7;
-    static final double PI = 3.1415926535;
+    static final double PI = 3.1415926;
     static final double WHEELS_DIAMETER = 9.6;
     static final double AXIS = 4;
     static final double LIFT_CM = ENCODER_PULSES / (AXIS * PI);
