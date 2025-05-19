@@ -10,13 +10,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 
+
 public class DriveTrain {
+
 
     DcMotor leftFront;
     DcMotor leftBack;
     DcMotor rightFront;
     DcMotor rightBack;
     IMU imu;
+    RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection;
+    RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection;
 
     static final double ENCODER_PULSES = 537.7;
     static final double PI = 3.1415926535;
@@ -25,6 +29,8 @@ public class DriveTrain {
     static final double LIFT_CM = ENCODER_PULSES / (AXIS * PI);
     static final double PULSES_PER_CM = ENCODER_PULSES / (PI * WHEELS_DIAMETER);
 
+    public enum RobotDirection{ FORWARD, BACK, RIGHT, LEFT, CLOCKWISE, COUNTERCLOCKWISE };
+
     public DriveTrain(LinearOpMode mode){
 
         leftFront = mode.hardwareMap.get(DcMotor.class, "leftFront");
@@ -32,7 +38,12 @@ public class DriveTrain {
         leftBack = mode.hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = mode.hardwareMap.get(DcMotor.class, "rightBack");
 
-        public enum[]
+        logoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+        usbFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+        RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(logoFacingDirection, usbFacingDirection);
+
+
+
 
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -44,25 +55,40 @@ public class DriveTrain {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void driveByEncoder(double direction, double power, double distanse){
-        switch(leftFront.getCurrentPosition() != distanse){
+    public void driveByEncoder(RobotDirection direction, double power, double distanse) {
+        while (Math.abs(leftFront.getCurrentPosition()) < Math.abs(distanse)) {
+            switch (direction) {
 
-            case FORWARD:
-                setPower(power);
-                break;
-            case BACK:
-                setPower(-power);
-                break;
-            case RIGHT:
-                setPower()
+                case FORWARD:
+                    setPower(power);
+                    break;
+                case BACK:
+                    setPower(-power);
+                    break;
+                case RIGHT:
+                    setPower(power, -power, -power, power);
+                    break;
+                case LEFT:
+                    setPower(-power, power, power, -power);
+                    break;
+            }
+        }
+    }
+        public void turnRight(double power,double degrees){
+        imu.resetYaw();
+            while(this.getDegrees() < degrees){
+                setPower(power, -power, power, -power);
 
+
+
+            }
         }
 
 
 
-    }
 
-    enum
+
+
 
     public void setMode(DcMotor.RunMode mode) {
         leftFront.setMode(mode);
