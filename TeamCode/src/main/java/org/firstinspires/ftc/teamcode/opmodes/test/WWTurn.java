@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "ExtensionClaw_Test", group = "Robot")
-public class ExtensionClaw_Test extends LinearOpMode {
+@TeleOp(name = "WW", group = "Robot")
+public class WWTurn extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftBack;
     DcMotor rightBack;
@@ -33,12 +33,13 @@ public class ExtensionClaw_Test extends LinearOpMode {
     double pos = 0;
     double pos2 = 0;
     double pos3 = 0;
+    double num = 0;
 
 
     public void runOpMode() {
-        liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
+        liftMotor = hardwareMap.get(DcMotor.class, "lift");
         //sss = hardwareMap.get(DcMotor.class, "sss");
-        extensionMotor = hardwareMap.get(DcMotor.class, "extensionMotor");
+        extensionMotor = hardwareMap.get(DcMotor.class, "extension");
         extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -54,8 +55,7 @@ public class ExtensionClaw_Test extends LinearOpMode {
         telemetry.update();
 //72
 
-        liftClaw = hardwareMap.get(Servo.class, "liftClaw");
-        liftClaw.setPosition(0.65);
+        turnServo = hardwareMap.get(Servo.class, "turnServo");
         turnServo.setPosition(0);
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -78,17 +78,22 @@ public class ExtensionClaw_Test extends LinearOpMode {
          *  добавить else для передвижения направляющей по стику, в котором устанавливается мощность 0
          *
          * */
-        boolean aState = false;
-        boolean slow = true;
+        boolean a = false;
 
 
         while (opModeIsActive()) {
-            turnServo.setPosition(gamepad2.right_stick_y);
-            telemetry.addData("Клешня", turnServo.getPosition());
+            if (gamepad2.a && !a) {
+                num += 0.01;
+                turnServo.setPosition(num);
+
+
+            }
+            a = gamepad2.a;
+            telemetry.addData("Клешня",turnServo.getPosition());
             telemetry.update();
         }
-
     }
+
 }
 
 

@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACK;
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.BACKRIGHT;
-import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.CLOCKWISE;
 import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.FORWARD;
+import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.LEFT;
+import static org.firstinspires.ftc.teamcode.modules.DriveTrain.RobotDirection.RIGHT;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BASKET;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.BOARD;
 import static org.firstinspires.ftc.teamcode.modules.Guides2.RobotPosition.FASTEN;
@@ -13,25 +14,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.modules.DriveTrain;
-import org.firstinspires.ftc.teamcode.modules.Guides2;
-import org.firstinspires.ftc.teamcode.modules.ServoWithPosition;
-import org.firstinspires.ftc.teamcode.modules.Gyroscope;
-
-@Autonomous(name = "AutoSpesimen2New", group = "Robot")
-public class Auto2SpesimenNew extends LinearOpMode {
+@Autonomous(name = "Backet", group = "Robot")
+public class Backet extends LinearOpMode {
 
 
 
-    static final double POWER = 0.25;
+    static final double POWER = 0.3;
     static final double AWAY = 1500;
     static int MAX = 4500;
     static final double SLOW = 0.1;
     static final double FAST = 0.8;
     static final double ALING_POWER = 0.4;
-    static final double UP = 0.3;
+    static final double UP = 0.8;
     final double BORD_BSUB = 58;
-    final double BSUB_SUB = 4;
+    final double BSUB_SUB = 7;
     final double SUB_CENTRE = 40;
     final double CENTRE_BSPESIMEN = 100;
     final double SPESIMEN_BSPESIMEN = 20;
@@ -66,6 +62,20 @@ public class Auto2SpesimenNew extends LinearOpMode {
 
         telemetry.addData("Подьем", lift.getCurrentPosition());
         telemetry.update();
+        drivetrain.DriveByEncoder(FORWARD, POWER, 30);
+
+        lift.setPower(BASKET, -UP);
+        drivetrain.DriveByEncoder(FORWARD, POWER, 15);
+        liftClaw.OPEN(OPEN_LIFTCLAW);
+        drivetrain.DriveByEncoder(BACK, POWER, 40);
+        lift.setPower(BOARD, UP);
+        drivetrain.DriveByEncoder(RIGHT, POWER, 100);
+        drivetrain.DriveByEncoder(LEFT, POWER, 100);
+        drivetrain.DriveByEncoder(BACK, POWER, CENTRE_BSPESIMEN);
+        drivetrain.DriveByEncoder(LEFT, POWER, SPESIMEN_BSPESIMEN);
+
+
+
 
         drivetrain.DriveByEncoder(FORWARD, POWER, BORD_BSUB);
         lift.setPower(TOP, -UP);
@@ -73,20 +83,16 @@ public class Auto2SpesimenNew extends LinearOpMode {
         lift.setPower(FASTEN, POWER);
         liftClaw.OPEN(OPEN_LIFTCLAW);
         drivetrain.DriveByEncoder(BACK, POWER, SUB_CENTRE);
-        sleep(500);
         drivetrain.TurnRight(90, POWER);
         drivetrain.DriveByEncoder(FORWARD, FAST, CENTRE_BSPESIMEN);
-        sleep(500);
         drivetrain.TurnRight(90, POWER);
-        lift.setPower(BOARD, POWER);
+        lift.setPower(BOARD, -POWER);
         drivetrain.DriveByEncoder(FORWARD, POWER, BSPESIMEN_SPESIMEN);
         liftClaw.CLOSE(CLOSE_LIFTCLAW);
         lift.setPower(TOP, -POWER);
         drivetrain.DriveByEncoder(BACK, POWER, SPESIMEN_BSPESIMEN);
-        sleep(500);
         drivetrain.TurnRight(90, POWER);
         drivetrain.DriveByEncoder(FORWARD, POWER, CENTRE_BSPESIMEN);
-        sleep(500);
         drivetrain.TurnRight(90, POWER);
         drivetrain.DriveByEncoder(BACK, ALING_POWER, ALING);
         drivetrain.DriveByEncoder(FORWARD, POWER, BORD_BSUB);
@@ -97,36 +103,12 @@ public class Auto2SpesimenNew extends LinearOpMode {
         drivetrain.DriveByEncoder(BACKRIGHT, POWER, SUB_PARK);
 
 
-        /*drivetrain.DriveByEncoder(FORWARD, POWER, BORD_BSUB);
-        lift.setPower(TOP, -UP);
-        drivetrain.DriveByEncoder(FORWARD, SLOW, BSUB_SUB);
-        lift.setPower(FASTEN, POWER);
-        liftClaw.OPEN(OPEN_LIFTCLAW);
-        drivetrain.DriveByEncoder(BACK, POWER, SUB_CENTRE);
-        drivetrain.TurnByDegrees(90, POWER);
-        drivetrain.DriveByEncoder(FORWARD, FAST, CENTRE_BSPESIMEN);
-        drivetrain.TurnByDegrees(90, POWER);
-        lift.setPower(BOARD, POWER);
-        drivetrain.DriveByEncoder(FORWARD, POWER, BSPESIMEN_SPESIMEN);
-        liftClaw.CLOSE(CLOSE_LIFTCLAW);
-        lift.setPower(TOP, -POWER);
-        drivetrain.DriveByEncoder(BACK, POWER, SPESIMEN_BSPESIMEN);
-        drivetrain.TurnByDegrees(90, POWER);
-        drivetrain.DriveByEncoder(FORWARD, POWER, CENTRE_BSPESIMEN);
-        drivetrain.TurnByDegrees(90, POWER);
-        drivetrain.DriveByEncoder(BACK, ALING_POWER, ALING);
-        drivetrain.DriveByEncoder(FORWARD, POWER, BORD_BSUB);
-        lift.setPower(TOP, -UP);
-        drivetrain.DriveByEncoder(FORWARD, SLOW, BSUB_SUB);
-        lift.setPower(FASTEN, POWER);
-        liftClaw.OPEN(OPEN_LIFTCLAW);
-        drivetrain.DriveByEncoder(BACKRIGHT, POWER, SUB_PARK);*/
+
 
 
 
     }
 }
-
 
 
 
