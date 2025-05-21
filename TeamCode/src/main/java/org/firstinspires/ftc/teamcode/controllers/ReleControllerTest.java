@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.controller_test;
+package org.firstinspires.ftc.teamcode.controllers;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -34,6 +34,8 @@ public class ReleControllerTest extends LinearOpMode {
                 motor.setPower(0);
             }
             dashboardTelemetry.addData("Current position - ", motor.getCurrentPosition());
+            dashboardTelemetry.addData("Target position - ", TARGET);
+            dashboardTelemetry.update();
             dashboardTelemetry.update();
         }
 
