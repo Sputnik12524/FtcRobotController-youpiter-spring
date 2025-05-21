@@ -14,12 +14,8 @@ public class ProportionalController extends LinearOpMode {
 
     DcMotor motor;
 
-    private double target = 0;
+    public static double TARGET = 100;
     public static double kP = 0.1;
-
-    public static double NEW_TARGET = 100;
-
-    private boolean btnX = false;
 
     @Override
     public void runOpMode() {
@@ -34,7 +30,7 @@ public class ProportionalController extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double error = target - motor.getCurrentPosition();
+            double error = TARGET - motor.getCurrentPosition();
             double power = error * kP;
 
             if (power > 1) {
@@ -45,12 +41,9 @@ public class ProportionalController extends LinearOpMode {
 
             motor.setPower(power);
 
-            if (gamepad1.x && !btnX) {
-                target = NEW_TARGET;
-            }
 
-            telemetry.addData("Желаемое положение:", target);
-            dashboardTelemetry.addData("Желаемое положение:", target);
+            telemetry.addData("Желаемое положение:", TARGET);
+            dashboardTelemetry.addData("Желаемое положение:", TARGET);
             telemetry.addData("Реальное положение:", motor.getCurrentPosition());
             dashboardTelemetry.addData("Реальное положение:", motor.getCurrentPosition());
             telemetry.addData("Ошибка:", error);
