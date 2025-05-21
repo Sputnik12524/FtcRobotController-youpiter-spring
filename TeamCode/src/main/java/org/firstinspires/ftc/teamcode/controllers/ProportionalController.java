@@ -1,9 +1,12 @@
-package org.firstinspires.ftc.teamcode.regulators;
+package org.firstinspires.ftc.teamcode.controllers;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 @TeleOp(name = "Proportional Controller", group = "Robot")
@@ -23,6 +26,9 @@ public class ProportionalController extends LinearOpMode {
         motor = hardwareMap.get(DcMotor.class, "motor");
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         waitForStart();
 
@@ -44,10 +50,14 @@ public class ProportionalController extends LinearOpMode {
             }
 
             telemetry.addData("Желаемое положение:", target);
+            dashboardTelemetry.addData("Желаемое положение:", target);
             telemetry.addData("Реальное положение:", motor.getCurrentPosition());
+            dashboardTelemetry.addData("Реальное положение:", motor.getCurrentPosition());
             telemetry.addData("Ошибка:", error);
+            dashboardTelemetry.addData("Ошибка:", error);
             telemetry.addData("Мощность:", power);
             telemetry.update();
+            dashboardTelemetry.update();
 
         }
     }
