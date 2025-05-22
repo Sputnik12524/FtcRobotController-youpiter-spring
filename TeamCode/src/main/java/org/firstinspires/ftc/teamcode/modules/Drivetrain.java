@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class DriveTrain {
+public class Drivetrain {
     private LinearOpMode opMode;
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -25,7 +25,7 @@ public class DriveTrain {
     static final double PULSES_PER_CM = ENCODER_PULSES / (PI * WHEELS_DIAMETER);
 
 
-    public DriveTrain(LinearOpMode opMode) {
+    public Drivetrain(LinearOpMode opMode) {
         this.opMode = opMode;
         telemetry = opMode.telemetry;
         imu = opMode.hardwareMap.get(IMU.class, "imu");
