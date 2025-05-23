@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Suspension {
@@ -17,6 +18,8 @@ public class Suspension {
     public Suspension(LinearOpMode opmode) {
         this.opMode = opmode;
         suspMotor = opmode.hardwareMap.get(DcMotorEx.class, "susMotor");
+        suspMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        suspMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public double getCurrentPositionSuspension(){
         int stepsPerRevolution = 252;
