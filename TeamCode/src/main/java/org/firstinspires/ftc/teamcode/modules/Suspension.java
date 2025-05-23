@@ -27,8 +27,11 @@ public class Suspension {
         return D * Math.PI * suspMotor.getCurrentPosition() / stepsPerRevolution;
     }
     public class SuspensionController extends Thread{
+
         @Override
         public void run(){
+            suspMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            suspMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             while(!isInterrupted()){
                 error = target - getCurrentPositionSuspension();
                 double power = error * kP;
@@ -37,20 +40,21 @@ public class Suspension {
                 } else if (power < -1) {
                     power = -1;
                 }
-
+                movingWithLimits(power);
             }
         }
-        public void movingWithLimits(double power) {
-            if (getCurrentPositionSuspension() <= POS_MIN && power < 0) {
-                suspMotor.setPower(0);
-                isOnLimits = true;
-            } else if (getCurrentPositionSuspension() >= POS_MAX && power > 0) {
-                suspMotor.setPower(0);
-                isOnLimits = true;
-            } else {
-                suspMotor.setPower(power);
-                isOnLimits = false;
-            }
+
+    }
+    public void movingWithLimits(double power) {
+        if (getCurrentPositionSuspension() <= POS_MIN && power < 0) {
+            suspMotor.setPower(0);
+            isOnLimits = true;
+        } else if (getCurrentPositionSuspension() >= POS_MAX && power > 0) {
+            suspMotor.setPower(0);
+            isOnLimits = true;
+        } else {
+            suspMotor.setPower(power);
+            isOnLimits = false;
         }
     }
     public void setTarget(double target) {
