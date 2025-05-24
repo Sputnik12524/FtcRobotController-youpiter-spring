@@ -4,14 +4,15 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-@TeleOp (name="Rele")
-public class ReleControllerTest extends LinearOpMode {
+@TeleOp (name="Proportional Controller")
+public class ProportionalControllerTest extends LinearOpMode {
     public static double TARGET = 2000;
+    public static double kP = 0.1;
     @Override
     public void runOpMode() throws InterruptedException {
         DcMotor motor = hardwareMap.get(DcMotor.class, "motor");
@@ -26,13 +27,8 @@ public class ReleControllerTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (motor.getCurrentPosition() < TARGET) {
-                motor.setPower(1);
-            } else if (motor.getCurrentPosition() > TARGET) {
-                motor.setPower(-1);
-            } else if (motor.getCurrentPosition() == TARGET) {
-                motor.setPower(0);
-            }
+            double power = (TARGET - motor.getCurrentPosition() * kP);
+            motor.setPower(power);
             dashboardTelemetry.addData("Current position - ", motor.getCurrentPosition());
             dashboardTelemetry.addData("Target position - ", TARGET);
             dashboardTelemetry.addData("Error -", TARGET - motor.getCurrentPosition());
