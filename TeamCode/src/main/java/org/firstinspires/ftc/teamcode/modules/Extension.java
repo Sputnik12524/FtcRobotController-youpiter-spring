@@ -6,28 +6,31 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Extension {
-    DcMotor extensionMotor;
-    Servo extensionClaw;
-    Servo turnServo;
+    private DcMotor extensionMotor;
+    private Servo extensionClaw;
+    private Servo turnServo;
 
-    public static final double EXTENSION_SERVO_CLOSE = 0.36;
-    public static final double EXTENSION_SERVO_OPEN = 0.18;
-    public static final double TURN_SERVO_UP = 0.18;
-    public static final double TURN_SERVO_DOWN = 0;
-    public static final double TURN_SERVO_FORWARD = 0.34;
-    public static final double MAX = 10000;
+    public static double EXTENSION_SERVO_CLOSE = 0.36;
+    public static double EXTENSION_SERVO_OPEN = 0.18;
+    public static double TURN_SERVO_UP = 0.18;
+    public static double TURN_SERVO_DOWN = 0;
+    public static double TURN_SERVO_FORWARD = 0.34;
+    public static double MAX = 10000;
+    public static double power;
 
     public Extension(LinearOpMode linearOpMode) {
-        extensionMotor = linearOpMode.hardwareMap.get(DcMotorEx.class, "extensionMotor");
+        extensionMotor = linearOpMode.hardwareMap.get(DcMotorEx.class, "moveExtension");
         extensionClaw = linearOpMode.hardwareMap.get(Servo.class, "extensionClaw");
         turnServo = linearOpMode.hardwareMap.get(Servo.class, "turnServo");
     }
 
-    public void extensionMotor(double power) {
-        if (extensionMotor.getCurrentPosition() >= 0 && extensionMotor.getCurrentPosition() < MAX) {
-            extensionMotor.setPower(power);
+    public void movingExtension() {
+        if (extensionMotor.getCurrentPosition() >= MAX && power > 0) {
+            extensionMotor.setPower(0);
+        } else if (extensionMotor.getCurrentPosition() <= 0 && power < 0) {
+            extensionMotor.setPower(0);
         } else {
-            extensionMotor.setPower(-power);
+            extensionMotor.setPower(power);
         }
     }
 
