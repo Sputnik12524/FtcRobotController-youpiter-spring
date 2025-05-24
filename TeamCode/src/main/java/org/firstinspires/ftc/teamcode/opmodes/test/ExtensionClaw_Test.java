@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,16 +6,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "extensionTest", group = "Robot")
-public class extensionTest extends LinearOpMode {
+@TeleOp(name = "ExtensionClaw_Test", group = "Robot")
+public class ExtensionClaw_Test extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftBack;
     DcMotor rightBack;
     DcMotor leftFront;
+    DcMotor liftMotor;
     //DcMotor sss;
-    DcMotor extension;
+    DcMotor extensionMotor;
     // DcMotor sss;
-    DcMotor lift;
+    Servo liftClaw;
     Servo turnServo;
     Servo extensionClaw;
     double forward;
@@ -32,21 +33,20 @@ public class extensionTest extends LinearOpMode {
     double pos = 0;
     double pos2 = 0;
     double pos3 = 0;
-    double num = 0;
 
 
     public void runOpMode() {
-        lift = hardwareMap.get(DcMotor.class, "lift");
+        liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         //sss = hardwareMap.get(DcMotor.class, "sss");
-        extension = hardwareMap.get(DcMotor.class, "extension");
+        extensionMotor = hardwareMap.get(DcMotor.class, "extensionMotor");
         extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extensionMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //sss.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //sss.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sss.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -54,8 +54,9 @@ public class extensionTest extends LinearOpMode {
         telemetry.update();
 //72
 
-        //extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
-        //extensionClaw.setPosition(0);
+        liftClaw = hardwareMap.get(Servo.class, "liftClaw");
+        liftClaw.setPosition(0.65);
+        turnServo.setPosition(0);
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -66,8 +67,8 @@ public class extensionTest extends LinearOpMode {
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        extension.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //sss.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
@@ -77,21 +78,17 @@ public class extensionTest extends LinearOpMode {
          *  добавить else для передвижения направляющей по стику, в котором устанавливается мощность 0
          *
          * */
-        boolean a = false;
+        boolean aState = false;
+        boolean slow = true;
 
 
         while (opModeIsActive()) {
-
-            lift.setPower( -gamepad1.right_stick_x);
-
-
-
-
-            telemetry.addData("Клешня",lift.getCurrentPosition());
+            turnServo.setPosition(gamepad2.right_stick_y);
+            telemetry.addData("Клешня", turnServo.getPosition());
             telemetry.update();
         }
-    }
 
+    }
 }
 
 

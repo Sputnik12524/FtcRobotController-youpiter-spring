@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,17 +6,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "WW", group = "Robot")
-public class WWTurn extends LinearOpMode {
+@TeleOp(name = "extensionTest", group = "Robot")
+public class extensionTest extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftBack;
     DcMotor rightBack;
     DcMotor leftFront;
-    DcMotor liftMotor;
     //DcMotor sss;
-    DcMotor extensionMotor;
+    DcMotor extension;
     // DcMotor sss;
-    Servo liftClaw;
+    DcMotor lift;
     Servo turnServo;
     Servo extensionClaw;
     double forward;
@@ -37,17 +36,17 @@ public class WWTurn extends LinearOpMode {
 
 
     public void runOpMode() {
-        liftMotor = hardwareMap.get(DcMotor.class, "lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         //sss = hardwareMap.get(DcMotor.class, "sss");
-        extensionMotor = hardwareMap.get(DcMotor.class, "extension");
+        extension = hardwareMap.get(DcMotor.class, "extension");
         extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extensionMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //sss.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //sss.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sss.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -55,8 +54,8 @@ public class WWTurn extends LinearOpMode {
         telemetry.update();
 //72
 
-        turnServo = hardwareMap.get(Servo.class, "turnServo");
-        turnServo.setPosition(0);
+        //extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
+        //extensionClaw.setPosition(0);
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -67,8 +66,8 @@ public class WWTurn extends LinearOpMode {
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        extension.setDirection(DcMotorSimple.Direction.REVERSE);
         //sss.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
@@ -82,14 +81,13 @@ public class WWTurn extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            if (gamepad2.a && !a) {
-                num += 0.01;
-                turnServo.setPosition(num);
+
+            lift.setPower( -gamepad1.right_stick_x);
 
 
-            }
-            a = gamepad2.a;
-            telemetry.addData("Клешня",turnServo.getPosition());
+
+
+            telemetry.addData("Клешня",lift.getCurrentPosition());
             telemetry.update();
         }
     }
