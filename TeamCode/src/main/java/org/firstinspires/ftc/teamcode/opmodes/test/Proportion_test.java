@@ -9,11 +9,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-@TeleOp(name = "Rele")
-public class ReleControlTest extends LinearOpMode {
+@TeleOp(name = "Proportion")
+public class Proportion_test extends LinearOpMode {
     DcMotor motor;
 
     public static double TARGET = 2000;
+    public static double kP = 0.1;
+    public static double error;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,13 +30,9 @@ public class ReleControlTest extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            if (motor.getCurrentPosition() < TARGET) {
-                motor.setPower(1);
-            } else if (motor.getCurrentPosition() > TARGET) {
-                motor.setPower(-1);
-            } else {
-                motor.setPower(0);
-            }
+            error = TARGET - motor.getCurrentPosition();
+            motor.setPower(kP * error);
+
             dashboardTelemetry.addData("Current position - ", motor.getCurrentPosition());
             dashboardTelemetry.addData("Target position", TARGET);
             dashboardTelemetry.addData("Error", TARGET - motor.getCurrentPosition());
