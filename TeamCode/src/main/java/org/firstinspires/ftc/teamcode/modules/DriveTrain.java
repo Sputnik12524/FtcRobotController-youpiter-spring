@@ -10,28 +10,29 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 
-
 public class DriveTrain {
 
 
-    DcMotor leftFront;
-    DcMotor leftBack;
-    DcMotor rightFront;
-    DcMotor rightBack;
+    private DcMotor leftFront;
+    private DcMotor leftBack;
+    private DcMotor rightFront;
+    private DcMotor rightBack;
+
     IMU imu;
-    RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection;
-    RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection;
+    private  RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection;
+    private  RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection;
 
     static final double ENCODER_PULSES = 537.7;
-    static final double PI = 3.1415926535;
     static final double WHEELS_DIAMETER = 9.6;
     static final double AXIS = 4;
-    static final double LIFT_CM = ENCODER_PULSES / (AXIS * PI);
-    static final double PULSES_PER_CM = ENCODER_PULSES / (PI * WHEELS_DIAMETER);
+    static final double LIFT_CM = ENCODER_PULSES / (AXIS * Math.PI);
+    static final double PULSES_PER_CM = ENCODER_PULSES / (Math.PI * WHEELS_DIAMETER);
 
-    public enum RobotDirection{ FORWARD, BACK, RIGHT, LEFT, CLOCKWISE, COUNTERCLOCKWISE };
+    public enum RobotDirection {FORWARD, BACK, RIGHT, LEFT, CLOCKWISE, COUNTERCLOCKWISE}
 
-    public DriveTrain(LinearOpMode mode){
+    ;
+
+    public DriveTrain(LinearOpMode mode) {
 
         leftFront = mode.hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = mode.hardwareMap.get(DcMotor.class, "rightFront");
@@ -41,8 +42,6 @@ public class DriveTrain {
         logoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         usbFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
         RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(logoFacingDirection, usbFacingDirection);
-
-
 
 
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -74,20 +73,15 @@ public class DriveTrain {
             }
         }
     }
-        public void turnRight(double power,double degrees){
+
+    public void turnRight(double power, double degrees) {
         imu.resetYaw();
-            while(this.getDegrees() < degrees){
-                setPower(power, -power, power, -power);
+        while (Math.abs(this.getDegrees()) < Math.abs(degrees)) {
+            setPower(power, -power, power, -power);
 
 
-
-            }
         }
-
-
-
-
-
+    }
 
 
     public void setMode(DcMotor.RunMode mode) {
@@ -108,7 +102,7 @@ public class DriveTrain {
         setPower(power, power, power, power);
     }
 
-    public void driveForward(double power, double distanse){
+    public void driveForward(double power, double distanse) {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (Math.abs(leftFront.getCurrentPosition()) < distanse * PULSES_PER_CM) {
