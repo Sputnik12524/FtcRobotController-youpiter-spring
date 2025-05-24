@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-@TeleOp (name="Alina_Rele",group = "Robot")
-public class ReleControlerTest extends LinearOpMode {
+@TeleOp(name = "Alina_Proporshional", group = "Robot")
+public class ProporshionalControlerTest extends LinearOpMode {
     private DcMotor motor;
     public static double TARGET = 2000;
+    public static double kp = 0.1;
+    public static double eror;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,19 +26,16 @@ public class ReleControlerTest extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-        while (opModeIsActive()){
-            if (motor.getCurrentPosition() < TARGET) {
-            motor.setPower(1);
-        } else if (motor.getCurrentPosition() > TARGET) {
-            motor.setPower(-1);
-        } else {
-            motor.setPower(0);
-        }
+        while (opModeIsActive()) {
+            eror = TARGET - motor.getCurrentPosition();
+            motor.setPower(kp * eror);
+
             dashboardTelemetry.addData("Current position - ", motor.getCurrentPosition());
             dashboardTelemetry.addData("arget position - ", TARGET);
             dashboardTelemetry.addData("Eror -", TARGET - motor.getCurrentPosition());
             dashboardTelemetry.update();
-    }
+        }
 
-}}
+    }
+}
 
