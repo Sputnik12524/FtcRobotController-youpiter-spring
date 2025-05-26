@@ -2,25 +2,60 @@ package org.firstinspires.ftc.teamcode.modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Lift {
     private Servo liftClaw;
     private DcMotor lift;
+    private DigitalChannel magnetikLimitSwith;
 
-    private static final int TOP = 2800;
-    private static final int FASTEN = 2125;
-    private static final int BOARD = 885;
-    private static final double CLOSECLAW = 0.82;
-    private static final double OPENCLAW = 0.65;
+    public static double TOP = 2800;
+    public static double FASTEN = 2125;
+    public static double BOARD = 885;
+    public static double CLOSECLAW = 0.82;
+    public static double OPENCLAW = 0.65;
+    public static double MIN_POSITION = 0;
+    public static double MAX_POSITION = 100;
 
-    public enum RobotPosition {TOP, FASTEN, BOARD}
+    public static double kp = 0.1;
+    private double error;
+    public volatile double target;
+
 
     ;
 
     public Lift(LinearOpMode linearOpMode) {
         liftClaw = linearOpMode.hardwareMap.get(Servo.class, "liftClaw");
         lift = linearOpMode.hardwareMap.get(DcMotor.class, "lift");
+        magnetikLimitSwith = linearOpMode.hardwareMap.get(DigitalChannel.class, "magnetikLimitSwith");
+    }
+
+    public class LiftControler extends Thread {
+
+        @Override
+        public void run() {
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            while (!isInterrupted()) {
+                error = target - lift.getCurrentPosition();
+                double power = kp * error;
+                movingLiftWithLimits(power);
+            }
+        }
+    }
+    public void setTarget(double target){
+        this.target = target;
+    }
+    public  boolean isMagetion(){
+        return !magnetikLimitSwith.getState();
+    }
+    public void movingLiftWithLimits(double power) {
+        if ((isMagetion() && power < 0 || lift.getCurrentPosition() >= MAX_POSITION && power > 0)) {
+            lift.setPower(0);
+        }else {
+            lift.setPower(power);
+        }
     }
 
     public void liftUp(double position, double power) {
@@ -44,22 +79,5 @@ public class Lift {
         liftClaw.setPosition(OPENCLAW);
     }
 
-    public void switchPosition(RobotPosition robotPosition, double power) {
-        lift.setPower(power);
-        double target;
-        double TOP, FASTEN, BOARD;
-        switch (robotPosition) {
-            case TOP:
-                target = 2430;
-                break;
-            case FASTEN:
-                target = 1930;
-                break;
-            case BOARD:
-                target = 700;
-                break;
 
-        }
-
-    }
 }
