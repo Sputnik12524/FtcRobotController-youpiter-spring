@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "Rele", group = "Robot")
 public class ReleControllerTest extends LinearOpMode {
-    DcMotor motor;
-    public static double target = 2000;
+   private DcMotor motor;
+    public static double TARGET = 2000;
 
     @Override
     public void runOpMode() {
@@ -32,17 +32,17 @@ public class ReleControllerTest extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            if (motor.getCurrentPosition() < target) {
+            if (motor.getCurrentPosition() < TARGET) {
                 motor.setPower(1);
-            } else if (motor.getCurrentPosition() > target) {
+            } else if (motor.getCurrentPosition() > TARGET) {
                 motor.setPower(-1);
-            } else if(motor.getCurrentPosition() == target) {
+            } else if(motor.getCurrentPosition() == TARGET) {
                 motor.setPower(0);
             }
 
             dashboardTelemetry.addData("Current position -" , motor.getCurrentPosition());
-            dashboardTelemetry.addData("Target position - ", target);
-            dashboardTelemetry.addData("Error - ", target - motor.getCurrentPosition());
+            dashboardTelemetry.addData("TARGET position - ", TARGET);
+            dashboardTelemetry.addData("Error - ", TARGET - motor.getCurrentPosition());
             dashboardTelemetry.update();
 
 

@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "ProportionalControllerTest", group = "Robot")
 public class ProportionalControllerTest extends LinearOpMode {
-    DcMotor motor;
-    public static double target = 2000;
+    private DcMotor motor;
+    public static double TARGET = 2000;
     public static double KP = 0.1;
     public static double error = 0;
 
@@ -33,11 +33,11 @@ public class ProportionalControllerTest extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            error = (target - motor.getCurrentPosition());
+            error = (TARGET - motor.getCurrentPosition());
             motor.setPower(KP * error);
             dashboardTelemetry.addData("Current position -", motor.getCurrentPosition());
-            dashboardTelemetry.addData("Target position - ", target);
-            dashboardTelemetry.addData("Error - ", target - motor.getCurrentPosition());
+            dashboardTelemetry.addData("TARGET position - ", TARGET);
+            dashboardTelemetry.addData("Error - ", TARGET - motor.getCurrentPosition());
             dashboardTelemetry.update();
 
         }
