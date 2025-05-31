@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.modules;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@Config
 public class Lift {
     private Servo liftClaw;
     private DcMotor lift;
@@ -18,7 +19,7 @@ public class Lift {
     public static double MIN_POSITION = 0;
     public static double MAX_POSITION = 100;
 
-    public static double kp = 0.1;
+    public static double kp = 0.001;
     private double error;
     public volatile double target;
 
