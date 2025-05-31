@@ -7,39 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-
-
-
-
-
-
-
-
-
+import org.firstinspires.ftc.teamcode.modules.Lift;
 
 
 //Для управления позициями
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @TeleOp(group = "Robot")
-public class FinalTeleop extends LinearOpMode {
+public class FinalTeleop3 extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftBack;
     DcMotor rightBack;
@@ -79,6 +54,10 @@ public class FinalTeleop extends LinearOpMode {
 
 
     public void runOpMode() {
+
+
+        Lift lift1 = new Lift(this);
+
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -143,6 +122,10 @@ public class FinalTeleop extends LinearOpMode {
         boolean t2 = true;
         boolean tab = false;
 
+        lift1.liftControler.start();
+
+
+//1076 - lowest, before specimen - 2800, after specimen - 2500
 
         waitForStart();
         // Установка неприрывного движения с помощью gamepad    1
@@ -155,137 +138,36 @@ public class FinalTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            if (gamepad2.dpad_up) {
+                lift1.setTarget(2800);
+            }
 
+            if(gamepad2.dpad_right){
+                lift1.setTarget(2500);
+            }
+            if(gamepad2.dpad_left){
+                lift1.setTarget(1075);
+            }
+            if(gamepad2.dpad_down){
+                lift1.setTarget(10);
+            }
 
 
             forward = gamepad1.left_stick_y;
             turn = gamepad1.right_stick_x;
             side = gamepad1.left_stick_x;
 
-            if (gamepad2.dpad_up) {
-                lift.setTargetPosition(2000);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0.8);
 
-                telemetry.addData("Позиция мотора", lift.getCurrentPosition());
-                telemetry.update();
-            }
 
-            if (gamepad2.dpad_left) {
-                lift.setTargetPosition(1000);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(-0.8);
 
-                telemetry.addData("Позиция мотора", lift.getCurrentPosition());
-                telemetry.update();
 
-            }
-            if (gamepad2.dpad_down) {
-                lift.setTargetPosition(10);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(-0.8);
 
-                telemetry.addData("Позиция мотора", lift.getCurrentPosition());
-                telemetry.update();
-            }
-
-            if (gamepad2.dpad_right) {
-                lift.setTargetPosition(1650);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0.8);
-
-                telemetry.addData("Позиция мотора", lift.getCurrentPosition());
-                telemetry.update();
-            }
             if (gamepad2.a) {
                 liftClaw.setPosition(LIFT_CLAW_OPEN);
             }
             if (gamepad2.b) {
                 liftClaw.setPosition(LIFT_CLAW_CLOSE);
             }
-//            if (gamepad2.x) {
-//                extensionClaw.setPosition(EXTENSION_CLAW_OPEN);
-//            }
-            /*if (gamepad2.y) {
-                extensionClaw.setPosition(EXTENSION_CLAW_CLOSE);
-            }
-            /*if (gamepad2.left_bumper) {
-                turnServo.setPosition(TURN_SERVO_DOWN);
-            }
-            if (gamepad2.right_bumper) {
-                turnServo.setPosition(TURN_SERVO_FORWARD);
-            }
-            if (gamepad2.dpad_down) {
-                turnServo.setPosition(TURN_SERVO_UP);
-            }
-            if (!x2State && gamepad2.x) {
-                if (extensionClaw.getPosition() == LIFT_CLAW_OPEN) {
-                    extensionClaw.setPosition(EXTENSION_CLAW_CLOSE);
-                } else {
-                    extensionClaw.setPosition(EXTENSION_CLAW_OPEN);
-                }
-            }
-            x2State = gamepad2.x;*/
-
-            // dpadUpState = gamepad2.dpad_up;
-            // dpadDownState = gamepad2.dpad_down;
-            // dpadRightState = gamepad2.dpad_right;
-            // dpadLeftState = gamepad2.dpad_left;
-
-            //if ((lift.getCurrentPosition() >= 0) && (lift.getCurrentPosition() <= LIFT_MAX)) {
-            //   lift.setPower(-gamepad2.left_stick_y);
-            // } else if (lift.getCurrentPosition() >= LIFT_MAX) {
-            //     lift.setPower(-SLOW);
-            //  } else if (lift.getCurrentPosition() < 0) {
-            //      lift.setPower(SLOW);
-            // }
-
-
-
-
-
-
-          /*  if(gamepad2.a && !tab){
-                if(liftClaw.getPosition() == 0.65){
-                    liftClaw.setPosition(0.82);
-                }
-                else{
-                    liftClaw.setPosition(0.65);
-                }
-            }
-
-
-
-
-            if ( gamepad2.a &&  !isClawPressed) {
-                if (isClosed){
-                    liftClaw.setPosition(LIFT_CLAW_OPEN);
-                    isClosed = false;
-                } else {
-                    liftClaw.setPosition(LIFT_CLAW_CLOSE);
-                    isClosed = true;
-                }
-            }
-
-
-
-            if (bState && gamepad2.b) {
-                if (turnServo.getPosition() == TURN_SERVO_FORWARD) {
-                    turnServo.setPosition(TURN_SERVO_DOWN);
-                } else {
-                    turnServo.setPosition(TURN_SERVO_FORWARD);
-                }
-            }
-
-            if(!l1 && gamepad2.a){
-                l2 = !l2;
-           }
-            if(l2){
-                liftClaw.setPosition(LIFT_CLAW_OPEN);
-            }
-            else{
-                liftClaw.setPosition(LIFT_CLAW_CLOSE);
-            }*/
 
 
             if (!hang && gamepad1.b) {
@@ -341,5 +223,7 @@ public class FinalTeleop extends LinearOpMode {
             tab = gamepad2.a;
             isClawPressed = gamepad2.a;
         }
+
+        lift1.liftControler.interrupt();
     }
 }

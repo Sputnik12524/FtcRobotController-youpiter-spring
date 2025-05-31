@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "extensionTest", group = "Robot")
+@TeleOp(name = "liftTest", group = "Robot")
 public class liftTest extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftBack;
@@ -16,6 +16,7 @@ public class liftTest extends LinearOpMode {
     DcMotor extension;
     // DcMotor sss;
     DcMotor lift;
+    Servo liftClaw;
     Servo turnServo;
     Servo extensionClaw;
     double forward;
@@ -32,6 +33,8 @@ public class liftTest extends LinearOpMode {
     double pos = 0;
     double pos2 = 0;
     double pos3 = 0;
+    double LIFT_CLAW_OPEN = 0.68;
+    double LIFT_CLAW_CLOSE = 0.90;
     double num = 0;
 
 
@@ -41,6 +44,7 @@ public class liftTest extends LinearOpMode {
         extension = hardwareMap.get(DcMotor.class, "extension");
         extensionClaw = hardwareMap.get(Servo.class, "extensionClaw");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
+        liftClaw = hardwareMap.get(Servo.class, "liftClaw");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,12 +80,40 @@ public class liftTest extends LinearOpMode {
          *  добавить else для передвижения направляющей по стику, в котором устанавливается мощность 0
          *
          * */
-        boolean a = false;
+        boolean aState = false;
+        boolean slow = true;
 
 
         while (opModeIsActive()) {
 
-            lift.setPower(-0.025);
+            forward = gamepad1.left_stick_y;
+            turn = gamepad1.right_stick_x;
+            side = gamepad1.left_stick_x;
+
+           lift.setPower(-gamepad2.right_stick_y);
+
+            if (gamepad2.a) {
+                liftClaw.setPosition(LIFT_CLAW_OPEN);
+            }
+            if (gamepad2.b) {
+                liftClaw.setPosition(LIFT_CLAW_CLOSE);
+            }
+
+            if (!aState && gamepad1.a) {
+                slow = !slow;
+            }
+            aState = gamepad1.a;
+            if (slow) {
+                leftFront.setPower((-forward + turn + side) * 0.5);
+                rightFront.setPower((-forward - turn - side) * 0.5);
+                leftBack.setPower((-forward + turn - side) * 0.5);
+                rightBack.setPower((-forward - turn + side) * 0.5);
+            } else {
+                leftFront.setPower((-forward + turn + side) * 1);
+                rightFront.setPower((-forward - turn - side) * 1);
+                leftBack.setPower((-forward + turn - side) * 1);
+                rightBack.setPower((-forward - turn + side) * 1);
+            }
 
 
 

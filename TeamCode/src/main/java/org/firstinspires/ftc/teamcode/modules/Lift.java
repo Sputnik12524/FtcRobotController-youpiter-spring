@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Lift {
     private Servo liftClaw;
     private DcMotor lift;
-    private DigitalChannel magnetikLimitSwith;
+    //private DigitalChannel magnetikLimitSwith;
 
     public static double TOP = 2800;
     public static double FASTEN = 2125;
@@ -22,13 +22,12 @@ public class Lift {
     private double error;
     public volatile double target;
 
-
-    ;
+    public LiftControler liftControler = new LiftControler();
 
     public Lift(LinearOpMode linearOpMode) {
         liftClaw = linearOpMode.hardwareMap.get(Servo.class, "liftClaw");
         lift = linearOpMode.hardwareMap.get(DcMotor.class, "lift");
-        magnetikLimitSwith = linearOpMode.hardwareMap.get(DigitalChannel.class, "magnetikLimitSwith");
+        //magnetikLimitSwith = linearOpMode.hardwareMap.get(DigitalChannel.class, "magnetikLimitSwith");
     }
 
     public class LiftControler extends Thread {
@@ -40,20 +39,23 @@ public class Lift {
             while (!isInterrupted()) {
                 error = target - lift.getCurrentPosition();
                 double power = kp * error;
-                movingLiftWithLimits(power);
+                lift.setPower(power);
             }
         }
     }
-    public void setTarget(double target){
+
+    public void setTarget(double target) {
         this.target = target;
     }
-    public  boolean isMagetion(){
-        return !magnetikLimitSwith.getState();
-    }
+
+//    public boolean isMagetion() {
+//        return !magnetikLimitSwith.getState();
+//    }
+
     public void movingLiftWithLimits(double power) {
-        if ((isMagetion() && power < 0 || lift.getCurrentPosition() >= MAX_POSITION && power > 0)) {
+        if ((power < 0 || lift.getCurrentPosition() >= MAX_POSITION && power > 0)) {
             lift.setPower(0);
-        }else {
+        } else {
             lift.setPower(power);
         }
     }
